@@ -7,6 +7,21 @@ let win = null;
 const SMOKE = process.argv.indexOf('--smoke') >= 0;
 const ROOT = path.join(__dirname, 'renderer');
 
+// 只允许开一个窗口。开第二个时，把已经开着的那扇拉到前面。
+// 两个实例同时用同一个数据目录，会把 Chromium 的存储锁死，
+// 第二个窗口读不到账户，看上去就像「账号不见了」。
+const SINGLE = !SMOKE && process.argv.indexOf('--gate') < 0;
+if (SINGLE && !app.requestSingleInstanceLock()) {
+  app.quit();
+  process.exit(0);
+}
+app.on('second-instance', function () {
+  if (!win) return;
+  if (win.isMinimized()) win.restore();
+  if (!win.isVisible()) win.show();
+  win.focus();
+});
+
 // 透明窗口需要 GPU 合成，否则圆角外会变成一块不透明的白底
 // 遇到老旧驱动启动异常时，用 --no-gpu 关掉加速
 if (process.argv.indexOf('--no-gpu') >= 0) app.disableHardwareAcceleration();
@@ -138,8 +153,6 @@ function createWindow() {
       '    ".splash,.gate,.ov{border-radius:26px!important}",',
       '    "html.maxed .win{width:100%!important;height:100%!important;border-radius:0!important;box-shadow:none!important}",',
       '    "html.maxed .splash,html.maxed .gate,html.maxed .ov{border-radius:0!important}",',
-      '    ".tbar,.gate-top{-webkit-app-region:drag}",',
-      '    ".tbar .tl,.gate-top .tl{-webkit-app-region:no-drag}",',
       '    ".tl i{cursor:pointer}",',
       '    ".tl i:hover{filter:brightness(1.12)}",',
       // macOS 用系统红绿灯，藏掉自绘的那三颗并给它们让出位置
@@ -205,26 +218,6 @@ function createWindow() {
     if (win.isMaximized()) win.unmaximize(); else win.maximize();
     log('toggle maximize -> ' + win.isMaximized());
   }
-  var lastTitleDown = 0;
-  if (!isMac) try {
-    // WM_NCLBUTTONDOWN：拖拽区被系统当成 caption，按下会走这条
-    win.hookWindowMessage(0x00A1, function () {
-      var now = Date.now();
-      if (lastTitleDown && now - lastTitleDown < 500) {
-        lastTitleDown = 0;
-        toggleMax();
-      } else {
-        lastTitleDown = now;
-      }
-    });
-    // WM_NCLBUTTONDBLCLK：系统自己判定的双击
-    win.hookWindowMessage(0x00A4, function () {
-      log('nc-dblclk');
-      toggleMax();
-    });
-  } catch (e) {
-    log('hook failed: ' + e.message);
-  }
 
   if (SMOKE) {
     win.webContents.once('did-finish-load', function () {
@@ -244,6 +237,18 @@ function createWindow() {
     });
   }
 }
+
+let drag = null;
+ipcMain.on('win:drag-start', function (e, x, y) {
+  if (!win || win.isMaximized()) return;
+  const p = win.getPosition();
+  drag = { sx: x, sy: y, wx: p[0], wy: p[1] };
+});
+ipcMain.on('win:drag-move', function (e, x, y) {
+  if (!drag || !win) return;
+  win.setPosition(Math.round(drag.wx + (x - drag.sx)), Math.round(drag.wy + (y - drag.sy)));
+});
+ipcMain.on('win:drag-end', function () { drag = null; });
 
 ipcMain.on('win:close', function (e) {
   const w = BrowserWindow.fromWebContents(e.sender);

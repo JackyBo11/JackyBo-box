@@ -70,7 +70,7 @@ input::placeholder,textarea::placeholder{color:var(--sub);opacity:.75}
   .stage{padding:0}
   .win{width:100%;max-width:none;height:100%;border-radius:0;box-shadow:none}
   /* 铺满后中栏很宽，内容靠左排，右边留白 */
-  .scroll > *,.compose,.wstat{max-width:680px;margin-left:0;margin-right:auto}
+  .scroll > *,.wstat{max-width:680px;margin-left:0;margin-right:auto}
   .side{width:400px}
 }
 
@@ -154,18 +154,20 @@ input::placeholder,textarea::placeholder{color:var(--sub);opacity:.75}
 .dtb.on i{background:var(--accent)}
 #imgView img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:6px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
 .ent img{cursor:zoom-in}
-.etitle{font-family:var(--serif);font-weight:600;font-size:23px;letter-spacing:.05em;margin-top:14px;color:var(--ink)}
-.etitle.empt{color:var(--sub);font-weight:400;font-size:17px;letter-spacing:.06em}
-.etime{font-family:var(--num);font-size:8px;letter-spacing:.08em;color:var(--sub);margin-top:5px}
+.etitle{display:block;width:100%;font-family:var(--serif);font-weight:600;font-size:23px;letter-spacing:.05em;margin-top:14px;color:var(--ink);background:transparent;border:none;outline:none;padding:0;border-bottom:1px dashed transparent;transition:border-color .15s}
+.etitle:hover{border-bottom-color:var(--line2)}
+.etitle:focus{border-bottom-color:var(--line)}
+.etitle::placeholder{color:var(--sub);font-weight:400;font-size:15px;letter-spacing:.06em;opacity:.85}
+.etime{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-family:var(--num);font-size:8px;letter-spacing:.08em;color:var(--sub);margin-top:5px}
 .moodline{display:flex;align-items:center;gap:7px;letter-spacing:.04em}
 .mdot{width:7px;height:7px;border-radius:50%;display:block;flex:none}
 .emeta{font-size:9px;letter-spacing:.16em;color:var(--sub);margin-top:8px;flex:none}
-.ebody{font-family:var(--serif);font-weight:600;font-size:13px;line-height:2.2;color:var(--ink2);margin-top:14px;max-width:560px}
+.ebody{font-family:var(--serif);font-weight:600;font-size:13px;line-height:2.2;color:var(--ink2);margin-top:14px;max-width:100%}
 .ebody p{margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
 .ebody .empt{color:var(--sub);font-weight:400}
 .ent{padding:2px 0 6px;border-bottom:1px dashed transparent;position:relative;transition:.15s}
 .ent:hover{border-bottom-color:var(--line2)}
-.ent .etools{position:absolute;right:0;top:0;display:flex;gap:10px;opacity:0;transition:.15s}
+.ent .etools{display:flex;gap:12px;opacity:0;transition:opacity .15s;flex:none}
 .ent:hover .etools{opacity:1}
 .ent .etools button{font-size:8.5px;letter-spacing:.1em;color:var(--sub)}
 .ent .etools button:hover{color:var(--accent)}
@@ -174,17 +176,14 @@ input::placeholder,textarea::placeholder{color:var(--sub);opacity:.75}
 .chips{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;flex:none}
 .chip{font-size:8.5px;letter-spacing:.1em;padding:4px 9px;border-radius:8px;border:1px solid var(--line);color:var(--sub)}
 .chip.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-.wrest{margin-top:14px;padding-top:12px;border-top:1px solid var(--line2);max-width:560px;flex:none}
+.wrest{margin-top:14px;padding-top:12px;border-top:1px solid var(--line2);max-width:100%;flex:none}
 .wr-t{font-size:8px;letter-spacing:.2em;color:var(--sub);margin-bottom:4px}
 .wr{display:flex;align-items:center;height:31px;border-bottom:1px solid var(--line2);cursor:pointer;gap:10px}
 .wr:hover .wrp{color:var(--accent)}
 .wrd{font-family:var(--num);font-size:9px;letter-spacing:.04em;color:var(--sub);width:74px;flex:none}
 .wrp{font-family:var(--serif);font-weight:600;font-size:10.5px;letter-spacing:.02em;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:.15s}
 .wrn{font-family:var(--num);font-size:8px;color:var(--sub);margin-left:auto;flex:none}
-.compose{flex:none;border-top:1px solid var(--line);padding-top:10px;margin-top:10px;max-width:560px}
-.ctitle{width:100%;font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink);padding:2px 0;border-bottom:1px dashed transparent;transition:.15s}
-.ctitle:focus{border-bottom-color:var(--line)}
-.ctitle::placeholder{font-size:11px;color:var(--sub);opacity:.6;font-weight:400;letter-spacing:.06em}
+.compose{flex:none;width:100%;border-top:1px solid var(--line);padding-top:10px;margin-top:10px;max-width:100%;margin-right:0}
 .compose textarea{width:100%;font-family:var(--serif);font-weight:600;font-size:13px;line-height:1.95;color:var(--ink2);resize:none;min-height:76px;max-height:150px;overflow:auto}
 .compose .row{display:flex;align-items:center;gap:12px;margin-top:6px}
 .mood{display:flex;align-items:center;gap:5px}
@@ -580,7 +579,7 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
         <div class="daytabs" id="daytabs"></div>
 
         <div class="scroll">
-          <h1 class="etitle" id="eTitle">无标题</h1>
+          <input class="etitle" id="eTitle" maxlength="40" spellcheck="false" placeholder="无标题">
           <p class="emeta" id="eMeta">—</p>
           <div class="ebody" id="eBody"></div>
           <div class="chips" id="eChips"></div>
@@ -588,7 +587,6 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
         </div>
 
         <div class="compose">
-          <input class="ctitle" id="cTitle" placeholder="标题（可选）" maxlength="40">
           <textarea id="cText" rows="3" placeholder="写点什么"></textarea>
           <div class="pend hide" id="cPend"></div>
           <div class="row">
@@ -1209,11 +1207,8 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
     var auto = list.length ? entryTitle(list[0]) : '';
     var custom = S.titles[ds] || '';
     var h = $('eTitle');
-    h.textContent = custom || auto || '无标题';
-    h.classList.toggle('empt', !custom && !auto);
-
-    $('cTitle').value = custom;
-    $('cTitle').placeholder = auto ? '标题（留空则用「' + auto.slice(0, 8) + '」）' : '标题（可选）';
+    if (document.activeElement !== h) h.value = custom;
+    h.placeholder = auto || '无标题';
 
     $('eMeta').textContent = list.length
       ? fmtMD(d) + ' · ' + list.length + ' 条记录'
@@ -1261,15 +1256,17 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
           }
           var meta = document.createElement('div');
           meta.className = 'etime';
-          meta.textContent = '创建于 ' + e.d.slice(5) + (e.time ? ' ' + e.time : '')
+          var mtxt = document.createElement('span');
+          mtxt.textContent = '创建于 ' + e.d.slice(5) + (e.time ? ' ' + e.time : '')
             + (e.t && moodTxt ? '　·　心情 · ' + moodTxt : '')
             + (e.editedAt ? '　·　修改于 ' + fmtTs(e.editedAt) : '');
-          w.appendChild(meta);
-          var tools = document.createElement('div');
+          meta.appendChild(mtxt);
+          var tools = document.createElement('span');
           tools.className = 'etools';
           tools.innerHTML = '<button data-act="edit" data-id="' + e.id + '">编辑</button>'
             + '<button data-act="del" data-id="' + e.id + '">删除</button>';
-          w.appendChild(tools);
+          meta.appendChild(tools);
+          w.appendChild(meta);
           body.appendChild(w);
         }
       });
@@ -1571,17 +1568,15 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
 
   $('cSave').addEventListener('click', function(){
     var ta = $('cText'), text = ta.value.trim();
-    var title = $('cTitle').value.trim();
-    if (!text && !curMood && !pendingImgs.length && !title) return;
+    if (!text && !curMood && !pendingImgs.length) return;
     var now = new Date(), ds = isoOf(selectedDate);
-    if (title) S.titles[ds] = title;
     if (text || curMood || pendingImgs.length){
       var e = { t: text, m: curMood, d: ds, time: pad(now.getHours()) + ':' + pad(now.getMinutes()) };
       if (pendingImgs.length) e.imgs = pendingImgs.slice();
       pushEntry(weekOf(selectedDate), e);
     }
     save();
-    ta.value = ''; pendingImgs = []; curMood = 0; $('cTitle').value = '';
+    ta.value = ''; pendingImgs = []; curMood = 0;
     ta.style.height = '';
     renderPend(); refreshPhotoBtn();
     Array.prototype.forEach.call($('cMood').querySelectorAll('b'), function(x){ x.classList.remove('sel'); });
@@ -1592,7 +1587,12 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
   $('eTitle').addEventListener('blur', function(){
     var ds = isoOf(selectedDate), v = this.value.trim();
     if (v) S.titles[ds] = v; else delete S.titles[ds];
-    save(); renderRail();
+    this.value = v;
+    save(); renderAll();
+  });
+  $('eTitle').addEventListener('keydown', function(ev){
+    if (ev.key === 'Enter'){ ev.preventDefault(); this.blur(); }
+    if (ev.key === 'Escape'){ this.value = S.titles[isoOf(selectedDate)] || ''; this.blur(); }
   });
 
   /* ---------- 同行 / 设置 ---------- */
@@ -2306,5 +2306,38 @@ body[data-skin="02"] .ov{background:rgba(0,0,0,.5)}
 
 })();
 </script>
-</body>
+<script>
+/* 标题栏拖动 + 双击最大化：不再依赖 -webkit-app-region，
+   因为拖拽区会把系统的双击消息吃掉。 */
+(function(){
+  if (!window.desktop || !window.desktop.dragStart) return;
+  function bind(el){
+    if (!el) return;
+    el.addEventListener('pointerdown', function(ev){
+      if (ev.button !== 0) return;
+      if (ev.target.closest('button, input, textarea, select, a, .tl, .sptabs')) return;
+      var x0 = ev.screenX, y0 = ev.screenY;
+      desktop.dragStart(x0, y0);
+      try { el.setPointerCapture(ev.pointerId); } catch (e) {}
+      function onMove(e2){ desktop.dragMove(e2.screenX, e2.screenY); }
+      function onUp(){
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('blur', onUp);
+        desktop.dragEnd();
+      }
+      // 窗口被移动时浏览器可能发 pointercancel，这里只认 pointerup
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('blur', onUp);
+    });
+    el.addEventListener('dblclick', function(ev){
+      if (ev.target.closest('button, input, textarea, select, a, .tl, .sptabs')) return;
+      desktop.maximize();
+    });
+  }
+  bind(document.querySelector('.tbar'));
+  bind(document.querySelector('.gate-top'));
+})();
+</script></body>
 </html>
