@@ -8,6 +8,11 @@
 
 ![主界面](docs/screenshots/01-主界面.png)
 
+## 下载
+
+Windows 免安装版：[Releases](https://github.com/JackyBo11/JackyBo-box/releases) → CunNianJar-win-x64-v1.0.zip
+
+解压后双击 CunNianJar.exe。未做代码签名，首次运行如被 SmartScreen 拦，点「更多信息 → 仍要运行」。
 ## 它是什么
 
 - **人生周历**：4,160 个点，走过的是灰的，写过的那周是陶土色
