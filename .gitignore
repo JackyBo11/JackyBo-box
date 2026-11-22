@@ -1,0 +1,20 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 打包产物
+dist/
+build/*.dmg
+build/*.exe
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# 运行日志与临时文件
+*.log
+_*.js
+_probe.html

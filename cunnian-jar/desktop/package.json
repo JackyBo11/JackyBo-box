@@ -1,0 +1,19 @@
+﻿{
+  "name": "cunnian-jar",
+  "productName": "存念小罐",
+  "version": "1.0.0",
+  "description": "存念小罐 — 本地优先的人生周记",
+  "main": "main.js",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "pack:mac": "electron-packager . 存念小罐 --platform=darwin --arch=universal --out=dist --overwrite --icon=build/icon.icns --app-bundle-id=com.cunnian.jar",
+    "pack": "electron-packager . 存念小罐 --platform=win32 --arch=x64 --out=dist --overwrite --icon=build/icon.ico --app-copyright=存念小罐 --win32metadata.CompanyName=存念小罐 --win32metadata.ProductName=存念小罐 --win32metadata.FileDescription=存念小罐"
+  },
+  "pnpm": { "onlyBuiltDependencies": ["electron"] },
+  "devDependencies": {
+    "@electron/packager": "^18.3.6",
+    "electron": "^33.2.1"
+  }
+}
